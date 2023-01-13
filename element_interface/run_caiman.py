@@ -1,34 +1,35 @@
-import cv2
 import pathlib
+
+import cv2
 
 try:
     cv2.setNumThreads(0)
-except:
-    pass
+except:  # noqa E722
+    pass  # TODO: remove bare except
 
 import caiman as cm
-from caiman.source_extraction.cnmf.cnmf import *
 from caiman.source_extraction.cnmf import params as params
+from caiman.source_extraction.cnmf.cnmf import CNMF
 
 from .caiman_loader import _save_mc
 
 
-def run_caiman(file_paths, parameters, sampling_rate, output_dir, is3D):
+def run_caiman(
+    file_paths: list,
+    parameters: dict,
+    sampling_rate: float,
+    output_dir: str,
+    is3D: bool,
+):
     """
     Runs the standard caiman analysis pipeline (CNMF.fit_file method).
 
-    Inputs
-    ------
-    file_paths: list
-        Image (full) paths
-    parameters: dict
-        Caiman parameters
-    sampling rate: float
-        Image sampling rate (Hz)
-    output_dir: str
-        Output directory
-    is3D: bool
-        Whether the data is 3D
+    Args:
+        file_paths (list): Image (full) paths
+        parameters (dict): Caiman parameters
+        sampling_rate (float): Image sampling rate (Hz)
+        output_dir (str): Output directory
+        is3D (bool):  the data is 3D
     """
     parameters["is3D"] = is3D
     parameters["fnames"] = file_paths
